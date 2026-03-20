@@ -1,170 +1,104 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BlogCard from '../components/BlogCard.astro';
-
-const allPosts = await getCollection('blog', ({ data }) => !data.draft);
-const recentPosts = allPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
 ---
 
 <BaseLayout
   title="Petr Mžíček – kouč vědomé produktivity"
   description="Pomáhám lidem, kteří potřebují skloubit své sny s hypotékou. Vědomá produktivita, koučink, záměr."
 >
-  <!-- HERO -->
   <section class="hero">
-    <div class="container hero-inner">
-      <div class="hero-text">
-        <h1>Nejlepší způsob<br />života žijeme<br />podle sebe</h1>
-        <p class="hero-sub">Nejdřív se ale musíme naučit říct „ne".</p>
-        <p class="hero-desc">Pomáhám lidem, kteří potřebují skloubit své sny s hypotékou.</p>
-        <a href="/kontakt/" class="btn btn--primary">Ozvěte se mi</a>
-      </div>
-      <div class="hero-photo">
-        <img
-          src="/images/petr-mzicek.jpg"
-          alt="Petr Mžíček"
-          width="480"
-          height="520"
-          loading="eager"
-          fetchpriority="high"
-          onerror="this.style.display='none'"
-        />
-      </div>
-    </div>
-  </section>
-
-  <!-- NEJNOVĚJŠÍ ČLÁNKY -->
-  <section class="recent-posts">
     <div class="container">
-      <h2 class="section-title">Poslední zápisky</h2>
-      <div class="recent-grid">
-        {recentPosts.map(post => (
-          <BlogCard
-            title={post.data.title}
-            description={post.data.description}
-            pubDate={post.data.pubDate}
-            slug={post.id}
-            category={post.data.category}
-            tags={post.data.tags}
-            image={post.data.image}
+      <div class="hero-inner">
+        <div class="hero-text">
+          <h1>Nejlepší způsob života žijeme podle sebe</h1>
+          <p class="hero-sub">Nejdřív se ale musíme naučit říct „ne".</p>
+          <p class="hero-desc">Pomáhám lidem, kteří potřebují skloubit své sny s hypotékou.</p>
+        </div>
+        <div class="hero-photo">
+          <img
+            src="/images/profil.jpg"
+            alt="Petr Mžíček"
+            width="560"
+            height="760"
+            loading="eager"
+            fetchpriority="high"
           />
-        ))}
+        </div>
       </div>
-      <div class="recent-more">
-        <a href="/blog/" class="btn btn--outline">Všechny články</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="cta-section">
-    <div class="container--text cta-inner">
-      <h2>Máte chuť na sobě pracovat?</h2>
-      <p>Ozvěte se mi. Probereme, čím se dá začít.</p>
-      <a href="/kontakt/" class="btn btn--primary">Napsat Petrovi</a>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  /* HERO */
   .hero {
-    background-color: var(--color-bg);
-    padding: var(--space-2xl) 0;
+    background-color: #fdfdfa;
+    padding: 64px 0;
+  }
+
+  .container {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 24px;
   }
 
   .hero-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-xl);
+    gap: 64px;
     align-items: center;
   }
 
   .hero-text h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
-    line-height: 1.1;
-    margin-bottom: var(--space-md);
+    font-family: 'Lora', serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: #2c3e50;
+    line-height: 1.2;
+    margin: 0 0 16px;
   }
 
   .hero-sub {
-    font-size: var(--text-xl);
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-sm);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: #575760;
+    margin: 0 0 24px;
   }
 
   .hero-desc {
-    color: var(--color-text);
-    margin-bottom: var(--space-lg);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.7;
+    color: #2c3e50;
+    margin: 0;
   }
 
   .hero-photo img {
     width: 100%;
     height: auto;
-    max-width: 480px;
-    object-fit: cover;
+    max-width: 560px;
     display: block;
     margin-left: auto;
   }
 
-  /* RECENT POSTS */
-  .recent-posts {
-    padding: var(--space-2xl) 0;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .section-title {
-    font-size: var(--text-2xl);
-    margin-bottom: var(--space-lg);
-  }
-
-  .recent-grid {
-    max-width: 720px;
-  }
-
-  .recent-more {
-    margin-top: var(--space-lg);
-  }
-
-  /* CTA */
-  .cta-section {
-    background-color: var(--color-bg);
-    border-top: 1px solid var(--color-border);
-    padding: var(--space-2xl) 0;
-  }
-
-  .cta-inner {
-    text-align: center;
-  }
-
-  .cta-inner h2 {
-    margin-bottom: var(--space-sm);
-  }
-
-  .cta-inner p {
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-lg);
-  }
-
-  /* RESPONSIVE */
   @media (max-width: 768px) {
     .hero-inner {
       grid-template-columns: 1fr;
+      gap: 32px;
     }
 
     .hero-photo {
-      order: -1;
-    }
-
-    .hero-photo img {
-      max-width: 280px;
-      margin: 0 auto;
+      order: 2;
     }
 
     .hero-text {
-      text-align: center;
+      order: 1;
+    }
+
+    .hero-photo img {
+      max-width: 100%;
+      margin: 0 auto;
     }
   }
 </style>
