@@ -1,13 +1,19 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import BlogCard from '../components/BlogCard.astro';
 
 const allPosts = await getCollection('blog', ({ data }) =>
   !data.draft && data.category === 'Deník experimentu'
 );
 const posts = allPosts.sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const renderedPosts = await Promise.all(
+  posts.map(async (post) => {
+    const { Content } = await render(post);
+    return { post, Content };
+  })
 );
 ---
 
@@ -27,17 +33,28 @@ const posts = allPosts.sort(
       <hr class="denik-divider" />
     </div>
     <div class="container denik-list">
-      {posts.map(post => (
-        <BlogCard
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          slug={post.id}
-          category={post.data.category}
-          tags={post.data.tags}
-          image={post.data.image}
-        />
-      ))}
+      {renderedPosts.map(({ post, Content }) => {
+        const formattedDate = post.data.pubDate.toLocaleDateString('cs-CZ', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+        return (
+          <article class="denik-entry">
+            <header class="denik-entry-header">
+              <h2 class="denik-entry-title">
+                <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+              </h2>
+              <time class="denik-entry-date" datetime={post.data.pubDate.toISOString()}>
+                {formattedDate}
+              </time>
+            </header>
+            <div class="denik-entry-content">
+              <Content />
+            </div>
+          </article>
+        );
+      })}
     </div>
   </div>
 </BaseLayout>
@@ -84,5 +101,55 @@ const posts = allPosts.sort(
     max-width: 720px;
     margin: 0 auto;
     padding-bottom: var(--space-2xl);
+  }
+
+  .denik-entry {
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  .denik-entry:last-child {
+    border-bottom: none;
+  }
+
+  .denik-entry-header {
+    margin-bottom: var(--space-sm);
+  }
+
+  .denik-entry-title {
+    font-size: var(--text-2xl);
+    font-family: var(--font-heading);
+    font-weight: 400;
+    line-height: 1.3;
+    margin: 0 0 var(--space-xs);
+  }
+
+  .denik-entry-title a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .denik-entry-title a:hover {
+    color: var(--color-accent);
+  }
+
+  .denik-entry-date {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .denik-entry-content {
+    line-height: 1.8;
+    color: var(--color-text);
+  }
+
+  .denik-entry-content p {
+    margin-bottom: var(--space-sm);
+  }
+
+  .denik-entry-content p:last-child {
+    margin-bottom: 0;
   }
 </style>
