@@ -1,0 +1,110 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  category?: string;
+  tags?: string[];
+  image?: string;
+}
+
+const { title, description, pubDate, updatedDate, category, tags = [], image } = Astro.props;
+
+const formattedDate = pubDate.toLocaleDateString('cs-CZ', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdated = updatedDate?.toLocaleDateString('cs-CZ', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={image}
+  type="article"
+  pubDate={pubDate.toISOString()}
+>
+  <article class="post container--text">
+    <header class="post-header">
+      {category && (
+        <a href={`/blog/kategorie/${category}/`} class="tag-category">
+          {category}
+        </a>
+      )}
+      <h1 class="post-title">{title}</h1>
+      <div class="post-meta">
+        <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+        {updatedDate && updatedDate > pubDate && (
+          <span class="post-updated">· Aktualizováno {formattedUpdated}</span>
+        )}
+      </div>
+      {tags.length > 0 && (
+        <div class="post-tags">
+          {tags.map(tag => (
+            <span class="tag-format">{tag}</span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    {image && (
+      <img src={image} alt={title} class="post-image" loading="eager" />
+    )}
+
+    <div class="entry-content">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .post-header {
+    margin-bottom: var(--space-lg);
+  }
+
+  .post-title {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    margin-top: var(--space-xs);
+    margin-bottom: var(--space-sm);
+    line-height: 1.2;
+  }
+
+  .post-meta {
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+  }
+
+  .post-updated {
+    opacity: 0.7;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+  }
+
+  .post-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: var(--space-lg);
+    object-fit: cover;
+  }
+</style>

@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Stránka nenalezena" description="Tato stránka neexistuje.">
+  <div class="container--text not-found">
+    <h1>404</h1>
+    <p class="not-found-msg">Tuto stránku jsem nenašel.</p>
+    <p>Možná byl odkaz špatný, nebo stránka přestala existovat.</p>
+    <div class="not-found-links">
+      <a href="/" class="btn btn--primary">Zpět na hlavní stránku</a>
+      <a href="/blog/" class="btn btn--outline">Přejít na blog</a>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    padding-top: var(--space-2xl);
+    padding-bottom: var(--space-2xl);
+    text-align: center;
+  }
+
+  .not-found h1 {
+    font-size: 6rem;
+    color: var(--color-border);
+    line-height: 1;
+    margin-bottom: var(--space-sm);
+  }
+
+  .not-found-msg {
+    font-size: var(--text-2xl);
+    font-family: var(--font-heading);
+    margin-bottom: var(--space-sm);
+  }
+
+  .not-found-links {
+    display: flex;
+    gap: var(--space-sm);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: var(--space-lg);
+  }
+</style>

@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Kontakt"
+  description="Těším se na náš první rozhovor. Napište mi, o čem přemýšlíte nebo co vás tíží."
+>
+  <div class="container--text contact-page">
+    <div class="contact-header">
+      <h1>Těším se na náš první rozhovor.</h1>
+      <p>Jsem rád, že se chystáte udělat první krok.<br />Napište mi o čem přemýšlíte nebo co vás tíží.</p>
+    </div>
+
+    <form
+      id="contact-form"
+      action="https://api.web3forms.com/submit"
+      method="POST"
+      class="contact-form"
+    >
+      <input type="hidden" name="access_key" value={import.meta.env.WEB3FORMS_KEY} />
+      <input type="hidden" name="subject" value="Nová zpráva z petrmzicek.cz" />
+      <input type="hidden" name="redirect" value="false" />
+      <!-- Honeypot anti-spam -->
+      <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+
+      <div class="form-group">
+        <label class="form-label" for="name">Vaše jméno</label>
+        <input class="form-input" type="text" id="name" name="name" placeholder="Jan Novák" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="email">Váš e-mail</label>
+        <input class="form-input" type="email" id="email" name="email" placeholder="jan@example.com" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="message">Vaše zpráva</label>
+        <textarea class="form-textarea" id="message" name="message" placeholder="Napište mi..." required></textarea>
+      </div>
+
+      <div id="form-success" class="form-success" style="display:none">
+        Děkuji za zprávu! Ozvu se co nejdříve.
+      </div>
+
+      <button type="submit" class="btn btn--primary form-submit">Odeslat</button>
+    </form>
+
+    <p class="contact-fallback">
+      Nebo mi napište přímo na <a href="mailto:petr@petrmzicek.cz" class="elegant-underline">petr@petrmzicek.cz</a>
+    </p>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const success = document.getElementById('form-success');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: data });
+      const json = await res.json();
+      if (json.success) {
+        form.reset();
+        if (success) success.style.display = 'block';
+      }
+    } catch {
+      // fallback — dovolí nativní submit
+      form.submit();
+    }
+  });
+</script>
+
+<style>
+  .contact-page {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .contact-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+  }
+
+  .contact-header h1 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: var(--space-sm);
+  }
+
+  .contact-header p {
+    color: var(--color-text-muted);
+  }
+
+  .contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .form-submit {
+    display: block;
+    width: fit-content;
+    margin: var(--space-lg) auto 0;
+  }
+
+  .form-success {
+    background-color: #f0faf0;
+    border: 1px solid #c0966b;
+    color: var(--color-text);
+    padding: var(--space-sm) var(--space-md);
+    text-align: center;
+    margin-bottom: var(--space-sm);
+  }
+
+  .contact-fallback {
+    text-align: center;
+    margin-top: var(--space-lg);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+</style>

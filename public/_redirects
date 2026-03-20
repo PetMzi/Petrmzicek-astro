@@ -1,0 +1,11 @@
+# Cloudflare Pages redirecty — zachování WP URL struktury
+
+# WordPress admin a systémové URL
+/wp-admin/*          /          302
+/wp-login.php        /          302
+/feed/               /          302
+/feed                /          302
+/wp-json/*           /          302
+
+# Kategorie WP → Astro
+/category/*          /blog/     301

@@ -1,0 +1,65 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  canonicalURL: string;
+  ogImage?: string;
+  type?: 'website' | 'article';
+  pubDate?: string;
+}
+
+const {
+  title,
+  description,
+  canonicalURL,
+  ogImage = '/images/og-default.jpg',
+  type = 'website',
+  pubDate,
+} = Astro.props;
+
+const siteTitle = `${title} | Petr Mžíček`;
+const siteUrl = 'https://petrmzicek.cz';
+const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+---
+
+<title>{siteTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={siteTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImageAbsolute} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:type" content={type} />
+<meta property="og:locale" content="cs_CZ" />
+<meta property="og:site_name" content="Petr Mžíček" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={siteTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageAbsolute} />
+
+<!-- Structured data — Article schema pro blog posty -->
+{type === 'article' && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "url": canonicalURL,
+    "datePublished": pubDate,
+    "image": ogImageAbsolute,
+    "author": {
+      "@type": "Person",
+      "name": "Petr Mžíček",
+      "url": siteUrl
+    },
+    "publisher": {
+      "@type": "Person",
+      "name": "Petr Mžíček",
+      "url": siteUrl
+    }
+  })} />
+)}

@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="O mně"
+  description="Jsem Petr Mžíček, kouč vědomé produktivity. Pomáhám lidem, kteří potřebují skloubit své sny s hypotékou."
+>
+  <div class="container omne-page">
+    <div class="omne-hero">
+      <div class="omne-hero-text">
+        <h1>Nejlepší způsob života<br />žijeme podle sebe</h1>
+      </div>
+      <div class="omne-hero-photo">
+        <img
+          src="/images/petr-mzicek.jpg"
+          alt="Petr Mžíček"
+          width="300"
+          height="300"
+          loading="eager"
+          onerror="this.style.display='none'"
+        />
+      </div>
+    </div>
+
+    <div class="omne-content entry-content">
+      <p class="omne-intro">
+        Dlouho jsem si myslel, že říct ne způsobí konec vztahu.<br />
+        Pak jsem pochopil, že to většiny neopravdu nevadí.
+      </p>
+      <p class="omne-intro">
+        Změnila příliš, když jsem se přestal ptát, co chtějí ostatní,<br />
+        a začal jsem se ptát, co chci já sám.
+      </p>
+
+      <h2>Můj příběh</h2>
+      <p>Za mým příběhem stojí 18 let v jedné firmě, od kluka po škole po zastupujícího ředitele. Od roku 2024 se systematicky vzdělávám v koučinku a krizové intervenci. Zajímá mě lidské fungování ve všech polohách, u příležitostí i ohroženích.</p>
+
+      <h2>Koučovací filozofie</h2>
+      <p>Na setkání se nezaměřím, co vám brani. Ptám se, jak by vypadal váš ideální den, práce nebo život. Koučink u mě není povídání o kávě. Je to systematické odcvičení slabých míst, nefunkčních vzorců a stereotypů.</p>
+      <p>Odnesl jsem si důvěru v sebe a ve vlastní rozhodnutí, v práci i v osobním životě.</p>
+
+      <h2>Specializace</h2>
+      <p>Pracuji s lidmi, kteří chtějí vyjádřit své pocity, ale bojí se, že tím ohrozí vztahy. Pomáhám lidem najít si skutečné priority, ne v podobě sériálů slavných sezónám a lazebnými vlajičkami. Work-life balance je často vyslovována. Já ho považuji za důležitý. Jen mu říkám životní rytmus.</p>
+
+      <h2>Pro koho</h2>
+      <p>Pracuji s lidmi, kteří potřebují skloubit své sny s hypotékou.</p>
+      <p>Pokud věříte, že nejlepší způsob života žijeme podle sebe a máte chuť na sobě pracovat, těším se na vás.</p>
+
+      <div class="omne-cta">
+        <p>Pokud <strong>máte chuť na sobě pracovat</strong>, ozvěte se mi.</p>
+        <a href="/kontakt/" class="btn btn--primary">Napsat Petrovi</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .omne-page {
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-2xl);
+  }
+
+  .omne-hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .omne-hero h1 {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    line-height: 1.2;
+  }
+
+  .omne-hero-photo img {
+    width: 100%;
+    max-width: 340px;
+    height: auto;
+    border-radius: 50%;
+    object-fit: cover;
+    aspect-ratio: 1;
+    margin-left: auto;
+  }
+
+  .omne-content {
+    max-width: 720px;
+  }
+
+  .omne-intro {
+    font-family: var(--font-heading);
+    font-style: italic;
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-bottom: var(--space-sm);
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .omne-cta {
+    margin-top: var(--space-xl);
+    text-align: center;
+    padding: var(--space-xl) 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .omne-cta p {
+    margin-bottom: var(--space-md);
+  }
+
+  @media (max-width: 768px) {
+    .omne-hero {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .omne-hero-photo {
+      order: -1;
+    }
+
+    .omne-hero-photo img {
+      max-width: 200px;
+      margin: 0 auto;
+    }
+  }
+</style>
