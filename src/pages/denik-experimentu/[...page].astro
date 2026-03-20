@@ -48,12 +48,12 @@ const renderedPosts = await Promise.all(
         return (
           <article class="denik-entry">
             <header class="denik-entry-header">
-              <h2 class="denik-entry-title">
-                <a href={`/blog/${post.id}/`}>{post.data.title}</a>
-              </h2>
               <time class="denik-entry-date" datetime={post.data.pubDate.toISOString()}>
                 {formattedDate}
               </time>
+              <h2 class="denik-entry-title">
+                <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+              </h2>
             </header>
             <div class="denik-entry-content">
               <Content />
@@ -142,7 +142,7 @@ const renderedPosts = await Promise.all(
   .denik-entry-title {
     font-size: var(--text-2xl);
     font-family: var(--font-heading);
-    font-weight: 400;
+    font-weight: 700;
     line-height: 1.3;
     margin: 0 0 var(--space-xs);
   }
